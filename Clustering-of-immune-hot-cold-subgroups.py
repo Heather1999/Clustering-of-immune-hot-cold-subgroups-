@@ -13,7 +13,6 @@ for filename in os.listdir(folder_path):
             content = file.read()
         df = pd.DataFrame({"File Name": [filename], "Content": [content]})
         dataframes.append(df)
-
 final_df = pd.concat(dataframes, ignore_index=True)
 
 # Split the content in the "Content" column into multiple columns
@@ -41,17 +40,64 @@ index = final_df.index.tolist()
 index.insert(0, index.pop())
 final_df.index = index
 
-# Get the first row as column names
-#new_column_names = final_df.iloc[0]
-# Rename columns
-#final_df.columns = new_column_names
-print(final_df)
+
+#filtering tumor samples
+file_id = sample_filter['File Name'].tolist()
+modified_id = []
+for file_id in file_id:
+    parts = file_id.split(".")  # Split the string by "."
+    desired_parts = parts[:-1]  # Remove the last part
+    modified_string = ".".join(desired_parts)  # Join the parts back together using "."
+    modified_id.append(modified_string)
+# Filter the rows based on the filter_list
+filtered_df = final_df.loc[final_df.index.isin(modified_id)]
+#select my nan
+nan_row=final_df.loc[np.nan]
+nan_row=pd.DataFrame(nan_row)
+# Add the NaN row to the top of the filtered DataFrame
+result_df = pd.concat([nan_row.T, filtered_df], ignore_index=False)
+#Get the first row and copy it
+row_nan = result_df.iloc[0].copy()
+# Loop through the cells in the first row and modify values
+for column in row_nan.index:
+    if isinstance(row_nan[column], str):
+        row_nan[column] = row_nan[column].split('.')[0]
+# Update the modified row back to the DataFrame
+result_df.iloc[0] = row_nan
 
 
-# Transpose the DataFrame
-#final_df = final_df.T
+###########
+File_direc=r"C:\Users\Heather P\Downloads\genes.txt"
+gene_file = pd.read_csv(File_direc, sep='\t')
+valid_column_names = gene_file['ENSEMBL ID'].tolist()
+result_df=result_df.T
+result_df = result_df.loc[result_df.iloc[:, 0].isin(valid_column_names)]
+#109 gene name 
+valid_column_names= [col_name for col_name in valid_column_names if col_name in result_df.iloc[:, 0].values]
+gene_file = gene_file[gene_file['ENSEMBL ID'].isin(valid_column_names)]
+############
+# change ENSEMBL to ENTRENZID
+result_df.iloc[:,0]=result_df.iloc[:,0].sort_values(ascending=True)
+gene_file = gene_file.sort_values(by='ENSEMBL ID',ascending=True)
+gene_xchange = gene_file.iloc[:, 2]
+result_df.iloc[:,0]=gene_xchange
+result_df=result_df.T
 
-# Truncate everything after the decimal point in the index
-#final_df.index = final_df.index.str.split('.').str[0]
-
-#matching_mask = final_df.iloc[0].isin(sample_filter['File Name'].str.strip()).any()
+#####finding minimum value
+# Initialize the minimum value to a large number
+min_value = float('inf')
+# Iterate through the DataFrame's values
+for row in result_df.values:
+    for value in row:
+            numeric_value = float(value)
+            if numeric_value != 0 and numeric_value < min_value:
+                min_value = numeric_value
+# Replace all zero values with the minimum value
+epsilon = 0.0000000001  # Adjust this threshold as needed
+for i in range(len(result_df)):
+    for j in range(len(result_df.columns)):
+        numeric_value = float(result_df.iloc[i, j])
+        if abs(numeric_value) < epsilon:
+            result_df.iloc[i, j] = min_value
+print(result_df)
+#log2
