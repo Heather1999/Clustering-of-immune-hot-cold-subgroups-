@@ -79,6 +79,7 @@ gene_file = gene_file[gene_file['ENSEMBL ID'].isin(valid_column_names)]
 # change ENSEMBL to ENTRENZID
 result_df.iloc[:,0]=result_df.iloc[:,0].sort_values(ascending=True)
 gene_file = gene_file.sort_values(by='ENSEMBL ID',ascending=True)
+print(gene_file)
 gene_xchange = gene_file.iloc[:, 2]
 result_df.iloc[:,0]=gene_xchange
 result_df=result_df.T
@@ -99,5 +100,17 @@ for i in range(len(result_df)):
         numeric_value = float(result_df.iloc[i, j])
         if abs(numeric_value) < epsilon:
             result_df.iloc[i, j] = min_value
-print(result_df)
-#log2
+
+#####log2
+# Convert DataFrame to numeric type (ignore errors)
+df_numeric = result_df.apply(pd.to_numeric)
+# Define a function to calculate log2
+def log2_function(value):
+    return np.log2(value)
+# Apply log2_function to each element of the DataFrame
+result_df.iloc[1:, :] = df_numeric.iloc[1:, :].applymap(log2_function)
+#file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
+#result_df.to_csv(file_path)
+#file_path = r"C:\Users\Heather P\Desktop\github\T1\109gene.csv"
+#gene_file.to_csv(file_path)
+
