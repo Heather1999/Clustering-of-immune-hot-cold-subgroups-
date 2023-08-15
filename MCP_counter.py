@@ -134,4 +134,5 @@ columns_to_drop = ['Cell Type', 'Average']  # List of column names to drop
 rows_to_drop = range(36, 360)  # +1 to include the end_index
 MCP_count_df = MCP_count_df.drop(columns=columns_to_drop)
 MCP_count_df = MCP_count_df.drop(index=rows_to_drop)
-print(MCP_count_df)
+file_path = r"C:\Users\Heather P\Desktop\github\T1\MCP_scores.csv"
+MCP_count_df.to_csv(file_path)

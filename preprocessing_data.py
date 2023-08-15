@@ -79,27 +79,49 @@ gene_file = gene_file[gene_file['ENSEMBL ID'].isin(valid_column_names)]
 # change ENSEMBL to ENTRENZID
 result_df.iloc[:,0]=result_df.iloc[:,0].sort_values(ascending=True)
 gene_file = gene_file.sort_values(by='ENSEMBL ID',ascending=True)
-print(gene_file)
 gene_xchange = gene_file.iloc[:, 2]
 result_df.iloc[:,0]=gene_xchange
 result_df=result_df.T
+########################
+result_df.index = result_df.index.str.split('.').str[0]
+file_path=r"C:\Users\Heather P\Downloads\gdc_sample_sheet.2021-05-30.tsv"
+sample_id=pd.read_csv(file_path,sep='\t')
+for i in range(len(sample_id)):
+    value = sample_id.iloc[i, 1]
+    split_parts = value.split('.')
+    sample_id.iloc[i, 1] = split_parts[0]
+new_index = []
+for value in result_df.index:
+    # Find rows in sample_id where the 'File Name' column matches the value
+    row_indices = sample_id.index[sample_id['File Name'] == value]   
+    # Get the corresponding 'Sample ID' values from sample_id
+    new_values = sample_id.iloc[row_indices, sample_id.columns.get_loc('Sample ID')].tolist()  
+    # Append the values to the new_index list
+    new_index.append(new_values)
+# Create a new DataFrame from new_index
+new_index_df = pd.DataFrame(new_index)
+# Concatenate the new row and the original DataFrame
+result_df.index=new_index_df.iloc[:,0]
+
 
 #####finding minimum value
 # Initialize the minimum value to a large number
 min_value = float('inf')
-# Iterate through the DataFrame's values
-for row in result_df.values:
-    for value in row:
-            numeric_value = float(value)
-            if numeric_value != 0 and numeric_value < min_value:
-                min_value = numeric_value
-# Replace all zero values with the minimum value
-epsilon = 0.0000000001  # Adjust this threshold as needed
-for i in range(len(result_df)):
-    for j in range(len(result_df.columns)):
-        numeric_value = float(result_df.iloc[i, j])
+
+# Iterate through each column to find the minimal value
+for col in result_df.columns:
+    min_value = float('inf')  # Initialize min_value with positive infinity
+    for value in result_df[col]:
+        numeric_value = float(value)
+        if numeric_value != 0 and numeric_value < min_value:
+            min_value = numeric_value  
+    # Replace all zero values with the minimal value of the column
+    epsilon = 0.0000000001  # Adjust this threshold as needed
+    for i in range(len(result_df)):
+        numeric_value = float(result_df.iloc[i][col])
         if abs(numeric_value) < epsilon:
-            result_df.iloc[i, j] = min_value
+            result_df.iloc[i, result_df.columns.get_loc(col)] = min_value
+
 
 #####log2
 # Convert DataFrame to numeric type (ignore errors)
@@ -109,8 +131,9 @@ def log2_function(value):
     return np.log2(value)
 # Apply log2_function to each element of the DataFrame
 result_df.iloc[1:, :] = df_numeric.iloc[1:, :].applymap(log2_function)
-#file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
-#result_df.to_csv(file_path)
+
+file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
+result_df.to_csv(file_path)
 #file_path = r"C:\Users\Heather P\Desktop\github\T1\109gene.csv"
 #gene_file.to_csv(file_path)
 
