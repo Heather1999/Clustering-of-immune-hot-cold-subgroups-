@@ -131,9 +131,9 @@ def log2_function(value):
     return np.log2(value)
 # Apply log2_function to each element of the DataFrame
 result_df.iloc[1:, :] = df_numeric.iloc[1:, :].applymap(log2_function)
-
-file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
-result_df.to_csv(file_path)
+print(result_df.loc[None,:])
+#file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
+#result_df.to_csv(file_path)
 #file_path = r"C:\Users\Heather P\Desktop\github\T1\109gene.csv"
 #gene_file.to_csv(file_path)
 

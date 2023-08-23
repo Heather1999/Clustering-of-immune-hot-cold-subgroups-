@@ -1,0 +1,112 @@
+	HUGO symbols	Cell population	ENTREZID
+0	CD28	T cells	940
+1	CD3D	T cells	915
+2	CD3G	T cells	917
+3	CD5	T cells	921
+4	CD6	T cells	923
+5	CHRM3-AS2	T cells	100506915
+6	CTLA4	T cells	1493
+7	FLT3LG	T cells	2323
+8	ICOS	T cells	29851
+9	MAL	T cells	4118
+10	MGC40069	T cells	348035
+11	PBX4	T cells	80714
+12	SIRPG	T cells	55423
+13	THEMIS	T cells	387357
+14	TNFRSF25	T cells	8718
+15	TRAT1	T cells	50852
+16	CD8B	CD8 T cells	926
+17	CD8A	Cytotoxic lymphocytes	925
+18	EOMES	Cytotoxic lymphocytes	8320
+19	FGFBP2	Cytotoxic lymphocytes	83888
+20	GNLY	Cytotoxic lymphocytes	10578
+21	KLRC3	Cytotoxic lymphocytes	3823
+22	KLRC4	Cytotoxic lymphocytes	8302
+23	KLRD1	Cytotoxic lymphocytes	3824
+24	BANK1	B lineage	55024
+25	CD19	B lineage	930
+26	CD22	B lineage	933
+27	CD79A	B lineage	973
+28	CR2	B lineage	1380
+29	FCRL2	B lineage	79368
+30	IGKC	B lineage	3514
+31	MS4A1	B lineage	931
+32	PAX5	B lineage	5079
+33	CD160	NK cells	11126
+34	KIR2DL1	NK cells	3802
+35	KIR2DL3	NK cells	3804
+36	KIR2DL4	NK cells	3805
+37	KIR3DL1	NK cells	3811
+38	KIR3DS1	NK cells	3813
+39	NCR1	NK cells	9437
+40	PTGDR	NK cells	5729
+41	SH2D1B	NK cells	117157
+42	ADAP2	Monocytic lineage	55803
+43	CSF1R	Monocytic lineage	1436
+44	FPR3	Monocytic lineage	2359
+45	KYNU	Monocytic lineage	8942
+46	PLA2G7	Monocytic lineage	7941
+47	RASSF4	Monocytic lineage	83937
+48	TFEC	Monocytic lineage	22797
+49	CD1A	Myeloid dendritic cells	909
+50	CD1B	Myeloid dendritic cells	910
+51	CD1E	Myeloid dendritic cells	913
+52	CLEC10A	Myeloid dendritic cells	10462
+53	CLIC2	Myeloid dendritic cells	1193
+54	WFDC21P	Myeloid dendritic cells	645638
+55	CA4	Neutrophils	762
+56	CEACAM3	Neutrophils	1084
+57	CXCR1	Neutrophils	3577
+58	CXCR2	Neutrophils	3579
+59	CYP4F3	Neutrophils	4051
+60	FCGR3B	Neutrophils	2215
+61	HAL	Neutrophils	3034
+62	KCNJ15	Neutrophils	3772
+63	MEGF9	Neutrophils	1955
+64	SLC25A37	Neutrophils	51312
+65	STEAP4	Neutrophils	79689
+66	TECPR2	Neutrophils	9895
+67	TLE3	Neutrophils	7090
+68	TNFRSF10C	Neutrophils	8794
+69	VNN3	Neutrophils	55350
+70	ACVRL1	Endothelial cells	94
+71	APLN	Endothelial cells	8862
+72	BCL6B	Endothelial cells	255877
+73	BMP6	Endothelial cells	654
+74	BMX	Endothelial cells	660
+75	CDH5	Endothelial cells	1003
+76	CLEC14A	Endothelial cells	161198
+77	CXorf36	Endothelial cells	79742
+78	EDN1	Endothelial cells	1906
+79	ELTD1	Endothelial cells	64123
+80	EMCN	Endothelial cells	51705
+81	ESAM	Endothelial cells	90952
+82	ESM1	Endothelial cells	11082
+83	FAM124B	Endothelial cells	79843
+84	HECW2	Endothelial cells	57520
+85	HHIP	Endothelial cells	64399
+86	KDR	Endothelial cells	3791
+87	MMRN1	Endothelial cells	22915
+88	MMRN2	Endothelial cells	79812
+89	MYCT1	Endothelial cells	80177
+90	PALMD	Endothelial cells	54873
+91	PEAR1	Endothelial cells	375033
+92	PGF	Endothelial cells	5228
+93	PLXNA2	Endothelial cells	5362
+94	PTPRB	Endothelial cells	5787
+95	ROBO4	Endothelial cells	54538
+96	SDPR	Endothelial cells	8436
+97	SHANK3	Endothelial cells	85358
+98	SHE	Endothelial cells	126669
+99	TEK	Endothelial cells	7010
+100	TIE1	Endothelial cells	7075
+101	VEPH1	Endothelial cells	79674
+102	VWF	Endothelial cells	7450
+103	COL1A1	Fibroblasts	1277
+104	COL3A1	Fibroblasts	1281
+105	COL6A1	Fibroblasts	1291
+106	COL6A2	Fibroblasts	1292
+107	DCN	Fibroblasts	1634
+108	GREM1	Fibroblasts	26585
+109	PAMR1	Fibroblasts	25891
+110	TAGLN	Fibroblasts	6876

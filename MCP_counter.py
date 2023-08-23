@@ -3,19 +3,15 @@ import pandas as pd
 import numpy as np
 
 csv_dir=r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
-# Read the CSV file without header
 result_df=pd.read_csv(csv_dir, header=None)
 # Extract the first row as a list of strings
-header_str = result_df.iloc[1, :].tolist()
-# Set the first row as the column names
-result_df.columns = header_str
-# Remove the first row from the DataFrame
-result_df= result_df.iloc[2:, :]
+result_df.index=result_df.iloc[:,0]
+result_df.columns=result_df.iloc[0,:]
+result_df=result_df.iloc[1:,1:]
 # Set the first column as the index
-result_df.set_index(result_df.columns[0], inplace=True)
-
 file_path = r"C:\Users\Heather P\Desktop\github\T1\109gene.csv"
 gene_file=pd.read_csv(file_path)
+print(gene_file)
 ###################################################################################################################
 ##pre counter classification(select all the genes belonging to specific cell type)
 cell_pop=gene_file.iloc[:,2:4]
@@ -89,6 +85,7 @@ for i in range(len(cell_pop)):
         if cell_pop.iloc[i,j] == "Fibroblasts":
             FB_id.append(cell_pop.iloc[i,j+1])
 FB_id = list(map(str, FB_id))
+
 ###################################################################################################################
 ######MCP counter function
 # Create a blank DataFrame to store the results
@@ -122,7 +119,7 @@ average(NK_id)
 average(NP_id)
 average(EC_id)
 average(MD_id)
-###Rearrange the data
+##Rearrange the data
 cell_types = ['T cell', 'CD8', 'CL', 'BL', 'FB', 'ML', 'NK', 'NP', 'EC', 'MD']
 start_indices = range(0, 360, 36)
 for cell_type, start_index in zip(cell_types, start_indices):
@@ -134,5 +131,10 @@ columns_to_drop = ['Cell Type', 'Average']  # List of column names to drop
 rows_to_drop = range(36, 360)  # +1 to include the end_index
 MCP_count_df = MCP_count_df.drop(columns=columns_to_drop)
 MCP_count_df = MCP_count_df.drop(index=rows_to_drop)
-file_path = r"C:\Users\Heather P\Desktop\github\T1\MCP_scores.csv"
+#T-8--CL-NK-BL-ML-MD-NP-EC-FB
+MCP_count_df=MCP_count_df[['Index','T cell','CD8','CL','NK','BL','ML','MD','NP','EC','FB']]
+print(MCP_count_df)
+MCP_count_df.columns=['Index','T cells', 'CD8 T cells', 'Cytotoxic lymphocytes','NK cells', 'B lineage', 'Monocytic lineage', 'Myeloid dendritic cells', 'Neutrophils', 'Endothelial cells', 'Fibroblasts']
+MCP_count_df=MCP_count_df.T
+file_path = r"C:\Users\Heather P\Desktop\github\T1\MCP_count_new.csv"
 MCP_count_df.to_csv(file_path)

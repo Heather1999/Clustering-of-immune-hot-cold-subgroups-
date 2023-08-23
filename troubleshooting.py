@@ -49,7 +49,6 @@ gene_names = [item.split('.')[0] for item in gene_names]
 split_content = split_content.drop(columns=even_columns.index)
 split_content.columns=gene_names
 final_df=split_content
-
 ####################################################篩選癌症sample(得到36)
 #filtering tumor samples
 file_id = sample_filter['Sample ID'].tolist()
@@ -75,28 +74,30 @@ gene = [values for values in gene if values]
 gene = [item for sublist in gene for item in sublist]
 gene = [str(item) for item in gene]
 final_df.columns=gene
+
 ##################finding minimum value
-# Iterate through each column to find the minimal value
-for col in final_df.columns:
+# Iterate through each row to find the minimal value
+for index, row in final_df.iterrows():
     min_value = float('inf')  # Initialize min_value with positive infinity
-    for value in final_df[col]:
+    for value in row:
         numeric_value = float(value)
         if numeric_value != 0 and numeric_value < min_value:
-            min_value = numeric_value  
-    # Replace all zero values with the minimal value of the column
+            min_value = numeric_value
+    # Replace all zero values with the minimal value of the row
     epsilon = 0.0000000001  # Adjust this threshold as needed
-    for i in range(len(final_df)):
-        numeric_value = float(final_df.iloc[i][col])
+    for col in final_df.columns:
+        numeric_value = float(row[col])
         if abs(numeric_value) < epsilon:
-            final_df.iloc[i, final_df.columns.get_loc(col)] = min_value
+            final_df.at[index, col] = min_value
 #####################log2
 # Convert DataFrame to numeric type (ignore errors)
 df_numeric = final_df.apply(pd.to_numeric)
 # Define a function to calculate log2
 def log2_function(value):
     return np.log2(value)
+print(final_df)
 # Apply log2_function to each element of the DataFrame
-final_df.iloc[:, :] = df_numeric.iloc[:, :].applymap(log2_function)
+final_df.loc[:, :] = df_numeric.applymap(log2_function)
 file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
 final_df.to_csv(file_path)
 
