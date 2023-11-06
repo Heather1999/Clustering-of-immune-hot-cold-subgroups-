@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from collections import OrderedDict
-folder_path = r"C:\Users\Heather P\Downloads\CHOL_raw\CHOL_raw"
+folder_path = r"C:\Users\Heather P\Desktop\github\T1\CHOL_raw\CHOL_raw"
 dataframes = []  # To store DataFrames for each text file
 csv_dir=r"C:\Users\Heather P\tumor_sample"
 sample_filter=pd.read_csv(csv_dir)
@@ -54,51 +54,54 @@ final_df=split_content
 file_id = sample_filter['Sample ID'].tolist()
 final_df = final_df.loc[final_df.index.isin(file_id)]
 ################################################選出109基因
-File_direc=r"C:\Users\Heather P\Downloads\genes.txt"
-gene_file = pd.read_csv(File_direc, sep='\t')
-valid_column_names = gene_file['ENSEMBL ID'].tolist()
-valid_column_names = [item for item in valid_column_names if item != 'ENSG00000275037']
-del valid_column_names[10]
-final_df = final_df[valid_column_names]
+File_direc=r"C:\Users\Heather P\Desktop\github\T1\109gene.csv"
+gene_file = pd.read_csv(File_direc)
+#print(gene_file)
+#valid_column_names = gene_file['ENSEMBL ID'].tolist()
+#valid_column_names = [item for item in valid_column_names if item != 'ENSG00000275037']
+#del valid_column_names[10]
+#final_df = final_df[valid_column_names]
 ####################置換基因呈現方式
 # change ENSEMBL to ENTRENZID
-gene = []
-for value in final_df.columns:
-    # Find rows in gene_file where the 'ENSEMBL ID' column matches the value
-    row_indices = gene_file.index[gene_file['ENSEMBL ID'] == value]    
-    # Get the corresponding 'ENTREZID' values from gene_file using .loc
-    new_values = gene_file.loc[row_indices, 'ENTREZID'].tolist()
-    # Append the values to the gene list
-    gene.append(new_values)
-gene = [values for values in gene if values]
-gene = [item for sublist in gene for item in sublist]
-gene = [str(item) for item in gene]
-final_df.columns=gene
+#gene = []
+#for value in final_df.columns:
+#    # Find rows in gene_file where the 'ENSEMBL ID' column matches the value
+#    row_indices = gene_file.index[gene_file['ENSEMBL ID'] == value]    
+#    # Get the corresponding 'ENTREZID' values from gene_file using .loc
+#    new_values = gene_file.loc[row_indices, 'ENTREZID'].tolist()
+#    # Append the values to the gene list
+#    gene.append(new_values)
+#gene = [values for values in gene if values]
+#gene = [item for sublist in gene for item in sublist]
+#gene = [str(item) for item in gene]
+#final_df.columns=gene
 
 ##################finding minimum value
 # Iterate through each row to find the minimal value
-for index, row in final_df.iterrows():
-    min_value = float('inf')  # Initialize min_value with positive infinity
-    for value in row:
-        numeric_value = float(value)
-        if numeric_value != 0 and numeric_value < min_value:
-            min_value = numeric_value
-    # Replace all zero values with the minimal value of the row
-    epsilon = 0.0000000001  # Adjust this threshold as needed
-    for col in final_df.columns:
-        numeric_value = float(row[col])
-        if abs(numeric_value) < epsilon:
-            final_df.at[index, col] = min_value
+#for index, row in final_df.iterrows():
+##    min_value = float('inf')  # Initialize min_value with positive infinity
+#    for value in row:
+#        numeric_value = float(value)
+#        if numeric_value != 0 and numeric_value < min_value:
+#            min_value = numeric_value
+#    # Replace all zero values with the minimal value of the row
+#    epsilon = 0.0000000001  # Adjust this threshold as needed
+#    for col in final_df.columns:
+#        numeric_value = float(row[col])
+#        if abs(numeric_value) < epsilon:
+#            final_df.at[index, col] = min_value
+#file = r"C:\Users\Heather P\Desktop\github\T1\min.csv"
+#final_df.to_csv(file)
 #####################log2
 # Convert DataFrame to numeric type (ignore errors)
-df_numeric = final_df.apply(pd.to_numeric)
+#df_numeric = final_df.apply(pd.to_numeric)
 # Define a function to calculate log2
-def log2_function(value):
-    return np.log2(value)
-print(final_df)
+#def log2_function(value):
+#    return np.log2(value)
+
 # Apply log2_function to each element of the DataFrame
-final_df.loc[:, :] = df_numeric.applymap(log2_function)
-file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df.csv"
+#final_df.loc[:, :] = df_numeric.applymap(log2_function)
+file_path = r"C:\Users\Heather P\Desktop\github\T1\result_df_60483gene.csv"
 final_df.to_csv(file_path)
 
 
